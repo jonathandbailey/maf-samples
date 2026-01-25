@@ -1,5 +1,5 @@
 using Api.Common;
-using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
+using Api.Samples.AGUIStateSnapShot;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +28,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var agentFactory = app.Services.GetRequiredService<IAgentFactory>();
-
-var agent = await agentFactory.Create();
-
-app.MapAGUI("/", agent);
+await app.MapAGUISnapShotExample();
 
 app.Run();
 
