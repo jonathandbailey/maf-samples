@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Api/Api.csproj" />
+  <Project Path="MafSamples.AppHost/MafSamples.AppHost.csproj" />
+  <Project Path="MafSamples.ServiceDefaults/MafSamples.ServiceDefaults.csproj" />
+</Solution>
