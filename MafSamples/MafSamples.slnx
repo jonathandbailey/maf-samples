@@ -1,5 +1,7 @@
 <Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="MafSamples.AppHost/MafSamples.AppHost.csproj" />
+    <Project Path="MafSamples.ServiceDefaults/MafSamples.ServiceDefaults.csproj" />
+  </Folder>
   <Project Path="Api/Api.csproj" />
-  <Project Path="MafSamples.AppHost/MafSamples.AppHost.csproj" />
-  <Project Path="MafSamples.ServiceDefaults/MafSamples.ServiceDefaults.csproj" />
 </Solution>
