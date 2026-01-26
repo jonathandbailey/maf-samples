@@ -4,7 +4,7 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
 using System.ClientModel;
 
-namespace Api.Common;
+namespace Api.Common.Agents;
 
 public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFactory
 {

@@ -1,4 +1,5 @@
-﻿using Api.Common;
+﻿using Api.Common.Agents;
+using Api.Common.Api;
 using Api.Samples.AgUiStateSnapShot;
 using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
 

@@ -1,4 +1,5 @@
 using Api.Common;
+using Api.Common.Agents;
 using Api.Samples.AGUIStateSnapShot;
 
 var builder = WebApplication.CreateBuilder(args);
