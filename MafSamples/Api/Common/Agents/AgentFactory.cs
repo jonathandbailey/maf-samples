@@ -1,4 +1,5 @@
-﻿using Azure.AI.OpenAI;
+﻿using Api.Common.Settings;
+using Azure.AI.OpenAI;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;

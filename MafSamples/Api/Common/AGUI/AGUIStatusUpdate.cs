@@ -1,4 +1,4 @@
-﻿namespace Api.Common;
+﻿namespace Api.Common.AGUI;
 
 public class AGUISnapshot<T>(string type, T data)
 {
