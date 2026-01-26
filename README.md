@@ -30,5 +30,5 @@ This examples demonstrates how to publish AG-UI status update events while strea
 - Using DataContent (JSON) to return AG-UI STATE_SNAPSHOT events.
 
 
-You can view the full doc and sample here : 
+You can view the full sample here :  [AG-UI Sample](https://github.com/jonathandbailey/maf-samples/tree/main/MafSamples/Api/Samples/AGUIStateSnapShot) 
 
