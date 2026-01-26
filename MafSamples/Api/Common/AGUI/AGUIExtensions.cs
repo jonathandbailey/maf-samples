@@ -12,8 +12,10 @@ public static class AGUIExtensions
     public static AgentResponseUpdate CreateStatusSnapshotUpdate(string status, string message)
     {
         var statusUpdate = new AGUIStatusUpdate(status, message);
+
         var stateBytes = JsonSerializer.SerializeToUtf8Bytes(
             new AGUISnapshot<AGUIStatusUpdate>(statusUpdate.Type, statusUpdate));
+
         return new AgentResponseUpdate
         {
             Contents = [new DataContent(stateBytes, ApplicationJsonMediaType)]
