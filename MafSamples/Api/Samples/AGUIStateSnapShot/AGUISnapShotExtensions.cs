@@ -12,6 +12,6 @@ public static  class AGUISnapShotExtensions
 
         var agent = await agentFactory.Create();
 
-        app.MapAGUI("/ag-ui/snapshot", new AgUiAgent(agent));
+        app.MapAGUI(Routes.AGUISnapshotRoute, new AGUIAgent(agent));
     }
 }

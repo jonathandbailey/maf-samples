@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.Configure<LanguageModelSettings>(settings =>
-    builder.Configuration.GetSection("LanguageModelSettings").Bind(settings));
+    builder.Configuration.GetSection(nameof(LanguageModelSettings)).Bind(settings));
 
 builder.Services.AddSingleton<IAgentFactory, AgentFactory>();
 

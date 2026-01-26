@@ -8,6 +8,9 @@ namespace Api.Common;
 
 public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFactory
 {
+    private const string AgentInstructions = "You are a helpful assistant that answers questions.";
+    private const string AssistantName = "Assistant";
+
     public async Task<AIAgent> Create()
     {
         var chatClient = new AzureOpenAIClient(new Uri(settings.Value.EndPoint),
@@ -16,12 +19,12 @@ public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFact
 
         ChatOptions chatOptions = new()
         {
-            Instructions = "You are a helpful assistant that answers questions."
+            Instructions = AgentInstructions
         };
 
         var clientChatOptions = new ChatClientAgentOptions
         {
-            Name = "Assistant",
+            Name = AssistantName,
 
             ChatOptions = chatOptions
         };

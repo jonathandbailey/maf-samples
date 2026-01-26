@@ -2,9 +2,9 @@
 
 public class LanguageModelSettings
 {
-    public string DeploymentName { get; set; } = string.Empty;
+    public required string DeploymentName { get; init; } 
 
-    public string EndPoint { get; set; } = string.Empty;
+    public required string EndPoint { get; init; }
 
-    public string ApiKey { get; set; } = string.Empty;
+    public required string ApiKey { get; init; }
 }

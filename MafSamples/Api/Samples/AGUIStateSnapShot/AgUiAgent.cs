@@ -5,12 +5,15 @@ using Microsoft.Extensions.AI;
 
 namespace Api.Samples.AgUiStateSnapShot;
 
-public class AgUiAgent(AIAgent agent) : DelegatingAIAgent(agent)
+public class AGUIAgent(AIAgent agent) : DelegatingAIAgent(agent)
 {
     private const string ApplicationJsonMediaType = "application/json";
 
-    protected override async IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(IEnumerable<ChatMessage> messages, AgentThread? thread = null,
-        AgentRunOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    protected override async IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(
+        IEnumerable<ChatMessage> messages, 
+        AgentThread? thread = null,
+        AgentRunOptions? options = null, 
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var stateBytes = JsonSerializer.SerializeToUtf8Bytes("This is an AG-UI STATE_SNAPSHOT pre agent run.");
 
