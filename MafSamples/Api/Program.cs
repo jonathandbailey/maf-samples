@@ -1,6 +1,7 @@
 using Api.Common.Agents;
 using Api.Common.Settings;
 using Api.Samples.AGUIStateSnapShot;
+using Api.Samples.ManualToolCall;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 await app.MapAGUISnapShotExample();
+await app.MapManualToolCallExample();
 
 app.Run();
 
