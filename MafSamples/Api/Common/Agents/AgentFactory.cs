@@ -12,7 +12,7 @@ public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFact
     private const string AgentInstructions = "You are a helpful assistant that answers questions.";
     private const string AssistantName = "Assistant";
 
-    public async Task<AIAgent> Create()
+    public async Task<AIAgent> Create(List<AITool>? tools = null)
     {
         var chatClient = new AzureOpenAIClient(new Uri(settings.Value.EndPoint),
                 new ApiKeyCredential(settings.Value.ApiKey))
@@ -20,7 +20,8 @@ public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFact
 
         ChatOptions chatOptions = new()
         {
-            Instructions = AgentInstructions
+            Instructions = AgentInstructions,
+            Tools = tools
         };
 
         var clientChatOptions = new ChatClientAgentOptions
@@ -40,5 +41,5 @@ public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFact
 
 public interface IAgentFactory
 {
-    Task<AIAgent> Create();
+    Task<AIAgent> Create(List<AITool>? tools = null);
 }

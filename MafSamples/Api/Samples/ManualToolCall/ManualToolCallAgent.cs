@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Api.Common.Agents;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 
@@ -12,10 +13,35 @@ public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
         AgentRunOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-     
-        await foreach (var agentResponse in base.RunCoreStreamingAsync(messages, thread, options, cancellationToken))
+        var agentThread = await agent.GetNewThreadAsync(cancellationToken);
+        
+        var tools = new Dictionary<string, FunctionCallContent>();
+
+        await foreach (var agentResponse in base.RunCoreStreamingAsync(messages, agentThread, options, cancellationToken))
         {
+            tools.AddToolCalls(agentResponse.Contents);
+
             yield return agentResponse;
+        }
+
+        var toolResults = new List<AIContent>();
+
+        foreach (var functionCallContent in tools)
+        {
+            var function = Tools.Get(functionCallContent.Key);
+
+            var result = await function.InvokeAsync(new AIFunctionArguments(functionCallContent.Value.Arguments), cancellationToken);
+
+            toolResults.Add(new FunctionResultContent(
+                functionCallContent.Value.CallId,
+                result));
+        }
+
+        var toolMessage = new ChatMessage(ChatRole.Tool, toolResults);
+        
+        await foreach (var update in InnerAgent.RunStreamingAsync([toolMessage], agentThread, cancellationToken: cancellationToken))
+        {      
+            yield return update;
         }
     }
 }
