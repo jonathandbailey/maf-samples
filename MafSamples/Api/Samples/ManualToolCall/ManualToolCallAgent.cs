@@ -13,11 +13,11 @@ public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
         AgentRunOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var agentThread = await agent.GetNewThreadAsync(cancellationToken);
+        var agentThread = await InnerAgent.GetNewThreadAsync(cancellationToken);
         
         var tools = new Dictionary<string, FunctionCallContent>();
 
-        await foreach (var agentResponse in base.RunCoreStreamingAsync(messages, agentThread, options, cancellationToken))
+        await foreach (var agentResponse in InnerAgent.RunStreamingAsync(messages, agentThread, options, cancellationToken))
         {
             tools.AddToolCalls(agentResponse.Contents);
 
