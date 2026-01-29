@@ -18,10 +18,17 @@ public static  class AgentTools
         ToolMetas[function.Name] = function;
     }
 
-    public static List<AITool> GetTools()
+    public static List<AITool> GetDeclarationOnlyTools()
     {
         return ToolMetas.Select(toolMeta => toolMeta.Value.AsDeclarationOnly()).Cast<AITool>().ToList();
     }
+
+    public static List<AITool> GetTools()
+    {
+        return ToolMetas.Select(toolMeta => toolMeta.Value).Cast<AITool>().ToList();
+    }
+
+
 
     public static AIFunction Get(string name)
     {
