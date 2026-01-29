@@ -2,7 +2,7 @@
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 
-namespace Api.Common.AGUI;
+namespace AGUI.StateSnapShotEvents;
 
 public static class AGUIExtensions
 {

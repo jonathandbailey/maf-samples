@@ -1,6 +1,9 @@
-using Api.Common.Agents;
-using Api.Common.Settings;
-using Api.Samples.AGUIStateSnapShot;
+using AGUI.StateSnapShotEvents;
+using Api;
+using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
+using Shared.Agents;
+using Shared.Settings;
+using Tools.ManualToolCall;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +32,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-await app.MapAGUISnapShotExample();
+
+var agentFactory = app.Services.GetRequiredService<IAgentFactory>();
+
+var agUiAgent = await AGUISnapShotExtensions.CreateAgent(agentFactory);
+
+app.MapAGUI(Routes.AGUISnapshotRoute, agUiAgent);
+
+var toolCallAgent = await ManualToolCallExtensions.CreateAgent(agentFactory);
+
+app.MapAGUI(Routes.ManualToolCallRoute, toolCallAgent);
 
 app.Run();
 

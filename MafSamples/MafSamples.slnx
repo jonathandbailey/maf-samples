@@ -3,5 +3,10 @@
     <Project Path="MafSamples.AppHost/MafSamples.AppHost.csproj" />
     <Project Path="MafSamples.ServiceDefaults/MafSamples.ServiceDefaults.csproj" />
   </Folder>
+  <Folder Name="/Samples/">
+    <Project Path="AGUI/AGUI.csproj" Id="0402d348-4de6-4f79-8514-755231d5aa42" />
+    <Project Path="Tools/Tools.csproj" Id="a113cadc-fde9-41f2-b3e3-74cd14020d60" />
+  </Folder>
   <Project Path="Api/Api.csproj" />
+  <Project Path="Shared/Shared.csproj" Id="b67a4845-676b-458b-8538-79ca5b4b65c1" />
 </Solution>
