@@ -1,6 +1,6 @@
 # Welcome to Microsoft Agent Framework Samples
 
-Welcome to this collection of **Microsoft Agent Framework** samples.The primary objective of this repository is to build upon and extend the official framework examples, providing deeper dives into specific implementation patterns and architectural designs.
+Welcome to this collection of **Microsoft Agent Framework** samples. The primary objective of this repository is to build upon and extend the official framework examples, providing deeper dives into specific implementation patterns and architectural designs.
 
 ## Tech Stack
 - .NET 10
@@ -9,26 +9,64 @@ Welcome to this collection of **Microsoft Agent Framework** samples.The primary 
 
 ## Getting Started
 
-### Azure Open AI Configuration Settings
-The samples are built against an Azure Open AI resource so DeploymentName, Endpoint, and ApiKey are required in the appSettings.Development.json before you can run the samples
+### Prerequisites
+- .NET 10 SDK
+- Azure OpenAI resource
+
+### Azure OpenAI Configuration Settings
+The samples are built against an Azure OpenAI resource. Configure the following settings in `appsettings.Development.json` before running the samples:
 
 ```json
 "LanguageModelSettings": {
   "DeploymentName": "",
-  "Endpoint": "",
-  "ApiKey": ""
+  "Endpoint": ""
 }
 ```
+
+**Note**: These samples use Azure credential-based authentication (Azure CLI or Managed Identity) for security. 
 
 ## Samples
 
 ### AG-UI State Snapshot Events
-This examples demonstrates how to publish AG-UI status update events while streaming from an LLM.
+**Location**: `src/Samples/AGUI/StateSnapShotEvents/`  
+**Endpoint**: `/ag-ui/snapshot`
+
+This sample demonstrates how to send custom state snapshot events to clients while streaming responses from an AI agent using the AG-UI protocol. It enables real-time status updates and progress indicators in your agent applications.
 
 **Key Features**
-- Extending an Agent using DelegatingAgent
-- Using DataContent (JSON) to return AG-UI STATE_SNAPSHOT events.
+- Extending an Agent using `DelegatingAIAgent`
+- Intercepting streaming responses to inject custom events
+- Using `DataContent` (JSON) to send AG-UI STATE_SNAPSHOT events
+- Real-time progress indicators during long-running operations
 
+**Key Scenarios**
+- Sending progress updates during multi-step agent workflows
+- Providing real-time status information to client applications
+- Implementing custom UI state management through Server-Sent Events (SSE)
+- Enhancing user experience with intermediate feedback before final responses
 
-You can view the full sample here :  [AG-UI Sample](https://github.com/jonathandbailey/maf-samples/tree/main/MafSamples/Api/Samples/AGUIStateSnapShot) 
+[View Full Documentation](src/Samples/AGUI/StateSnapShotEvents/README.md)
+
+---
+
+### Manual Tool Call
+**Location**: `src/Samples/Tools/ManualToolCall/`  
+**Endpoint**: `/manual-tool-call`
+
+This sample demonstrates how to manually handle tool/function calls in a custom AI agent by intercepting tool calls from the language model and executing them explicitly in your code. This pattern gives you complete control over when and how tools are executed.
+
+**Key Features**
+- Manual interception and execution of tool calls
+- Custom control flow between tool detection and execution
+- Explicit tool result handling
+- Multi-pass agent interaction pattern
+
+**Key Scenarios**
+- Implementing custom logic between tool detection and execution
+- Batch processing of multiple tool calls before execution
+- Adding logging, validation, or authorization checks before tool execution
+- Custom error handling or retry logic for tools
+- Integration with external systems for tool execution
+
+[View Full Documentation](src/Samples/Tools/ManualToolCall/README.md)
 
