@@ -1,4 +1,4 @@
-﻿namespace Api.Common.Api;
+﻿namespace Api;
 
 public static class Routes
 {

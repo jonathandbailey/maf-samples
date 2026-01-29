@@ -1,9 +1,8 @@
-﻿using Api.Common.AGUI;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
-using System.Runtime.CompilerServices;
 
-namespace Samples.AGUIStateSnapShot;
+namespace AGUI.StateSnapShotEvents;
 
 public class AGUIAgent(AIAgent agent) : DelegatingAIAgent(agent)
 {

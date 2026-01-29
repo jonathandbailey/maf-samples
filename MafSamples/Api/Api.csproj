@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AGUI\AGUI.csproj" />
     <ProjectReference Include="..\MafSamples.ServiceDefaults\MafSamples.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\Tools\Tools.csproj" />

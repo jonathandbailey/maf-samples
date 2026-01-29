@@ -1,4 +1,4 @@
-﻿namespace Api.Common.AGUI;
+﻿namespace AGUI.StateSnapShotEvents;
 
 public class AGUISnapshot<T>(string type, T data)
 {
