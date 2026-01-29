@@ -4,6 +4,7 @@
     <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/Samples/">
+    <Project Path="src/Samples/A2A/A2A.csproj" Id="ad6a748d-f29c-4edf-bda9-03c68aa62494" />
     <Project Path="src/Samples/AGUI/AGUI.csproj" />
     <Project Path="src/Samples/Tools/Tools.csproj" />
   </Folder>

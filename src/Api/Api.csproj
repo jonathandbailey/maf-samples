@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Samples\A2A\A2A.csproj" />
     <ProjectReference Include="..\Samples\AGUI\AGUI.csproj" />
     <ProjectReference Include="..\Samples\Tools\Tools.csproj" />
     <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
