@@ -6,7 +6,7 @@ namespace Tools.ManualToolCall;
 
 public static class ManualToolCallExtensions
 {
-    public static async Task<AIAgent> CreateAgent(IAgentFactory agentFactory)
+    public static async Task<AIAgent> CreateManualToolCallAgent(this IAgentFactory agentFactory)
     {
         var agent = await agentFactory.Create(AgentTools.GetTools());
 

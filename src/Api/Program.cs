@@ -35,11 +35,11 @@ app.UseHttpsRedirection();
 
 var agentFactory = app.Services.GetRequiredService<IAgentFactory>();
 
-var agUiAgent = await AGUISnapShotExtensions.CreateAgent(agentFactory);
+var agUiAgent = await agentFactory.CreateAgUiSnapShotAgent();
 
 app.MapAGUI(Routes.AGUISnapshotRoute, agUiAgent);
 
-var toolCallAgent = await ManualToolCallExtensions.CreateAgent(agentFactory);
+var toolCallAgent = await agentFactory.CreateManualToolCallAgent();
 
 app.MapAGUI(Routes.ManualToolCallRoute, toolCallAgent);
 

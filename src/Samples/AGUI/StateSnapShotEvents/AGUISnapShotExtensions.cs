@@ -5,7 +5,7 @@ namespace AGUI.StateSnapShotEvents;
 
 public static  class AGUISnapShotExtensions
 {
-    public static async Task<AIAgent> CreateAgent(IAgentFactory agentFactory)
+    public static async Task<AIAgent> CreateAgUiSnapShotAgent(this IAgentFactory agentFactory)
     {
         var agent = await agentFactory.Create();
 
