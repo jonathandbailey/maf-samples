@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Microsoft.Extensions.AI;
 
-namespace Api.Common.Agents;
+namespace Shared.Agents;
 
-public static  class Tools
+public static  class AgentTools
 {
     private static readonly Dictionary<string, AIFunction> ToolMetas = new();
     
@@ -11,7 +11,7 @@ public static  class Tools
     private static string GetWeather([Description("The location to get the weather for.")] string location)
         => $"The weather in {location} is cloudy with a high of 15°C.";
 
-    static Tools()
+    static AgentTools()
     {
         var function = AIFunctionFactory.Create(GetWeather);
 

@@ -1,7 +1,9 @@
-using Api.Common.Agents;
-using Api.Common.Settings;
-using Api.Samples.AGUIStateSnapShot;
-using Api.Samples.ManualToolCall;
+using Api.Common.Api;
+using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
+using Samples.AGUIStateSnapShot;
+using Shared.Agents;
+using Shared.Settings;
+using Tools.ManualToolCall;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +33,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 await app.MapAGUISnapShotExample();
-await app.MapManualToolCallExample();
+
+var agentFactory = app.Services.GetRequiredService<IAgentFactory>();
+
+var agent = await ManualToolCallExtensions.CreateAgent(agentFactory);
+
+app.MapAGUI(Routes.ManualToolCallRoute, agent);
 
 app.Run();
 

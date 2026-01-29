@@ -1,4 +1,4 @@
-﻿namespace Api.Common.Settings;
+﻿namespace Shared.Settings;
 
 public class LanguageModelSettings
 {

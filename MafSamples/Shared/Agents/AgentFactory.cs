@@ -1,11 +1,11 @@
-﻿using Api.Common.Settings;
+﻿using System.ClientModel;
 using Azure.AI.OpenAI;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
-using System.ClientModel;
+using Shared.Settings;
 
-namespace Api.Common.Agents;
+namespace Shared.Agents;
 
 public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFactory
 {

@@ -1,23 +1,24 @@
 ﻿using System.Runtime.CompilerServices;
-using Api.Common.Agents;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using Shared.Agents;
 
-namespace Api.Samples.ManualToolCall;
+
+namespace Tools.ManualToolCall;
 
 public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
 {
     protected override async IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(
         IEnumerable<ChatMessage> messages,
-        AgentThread? thread = null,
+        AgentSession? thread = null,
         AgentRunOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var agentThread = await InnerAgent.GetNewThreadAsync(cancellationToken);
+        var agentSession = await InnerAgent.GetNewSessionAsync(cancellationToken);
         
         var tools = new Dictionary<string, FunctionCallContent>();
 
-        await foreach (var agentResponse in InnerAgent.RunStreamingAsync(messages, agentThread, options, cancellationToken))
+        await foreach (var agentResponse in InnerAgent.RunStreamingAsync(messages, agentSession, options, cancellationToken))
         {
             tools.AddToolCalls(agentResponse.Contents);
 
@@ -28,7 +29,7 @@ public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
 
         foreach (var functionCallContent in tools)
         {
-            var function = Tools.Get(functionCallContent.Key);
+            var function = AgentTools.Get(functionCallContent.Key);
 
             var result = await function.InvokeAsync(new AIFunctionArguments(functionCallContent.Value.Arguments), cancellationToken);
 
@@ -39,7 +40,7 @@ public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
 
         var toolMessage = new ChatMessage(ChatRole.Tool, toolResults);
         
-        await foreach (var update in InnerAgent.RunStreamingAsync([toolMessage], agentThread, cancellationToken: cancellationToken))
+        await foreach (var update in InnerAgent.RunStreamingAsync([toolMessage], agentSession, cancellationToken: cancellationToken))
         {      
             yield return update;
         }

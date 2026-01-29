@@ -3,7 +3,7 @@ using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using System.Runtime.CompilerServices;
 
-namespace Api.Samples.AgUiStateSnapShot;
+namespace Samples.AGUIStateSnapShot;
 
 public class AGUIAgent(AIAgent agent) : DelegatingAIAgent(agent)
 {
@@ -14,7 +14,7 @@ public class AGUIAgent(AIAgent agent) : DelegatingAIAgent(agent)
 
     protected override async IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(
         IEnumerable<ChatMessage> messages, 
-        AgentThread? thread = null,
+        AgentSession? thread = null,
         AgentRunOptions? options = null, 
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {

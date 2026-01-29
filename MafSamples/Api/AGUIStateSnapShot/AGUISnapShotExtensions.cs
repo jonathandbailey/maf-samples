@@ -1,9 +1,8 @@
-﻿using Api.Common.Agents;
-using Api.Common.Api;
-using Api.Samples.AgUiStateSnapShot;
+﻿using Api.Common.Api;
 using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
+using Shared.Agents;
 
-namespace Api.Samples.AGUIStateSnapShot;
+namespace Samples.AGUIStateSnapShot;
 
 public static  class AGUISnapShotExtensions
 {
