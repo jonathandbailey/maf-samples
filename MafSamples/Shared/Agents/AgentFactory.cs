@@ -1,5 +1,5 @@
-﻿using System.ClientModel;
-using Azure.AI.OpenAI;
+﻿using Azure.AI.OpenAI;
+using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
@@ -14,8 +14,13 @@ public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFact
 
     public async Task<AIAgent> Create(List<AITool>? tools = null)
     {
-        var chatClient = new AzureOpenAIClient(new Uri(settings.Value.EndPoint),
-                new ApiKeyCredential(settings.Value.ApiKey))
+        var credential = new ChainedTokenCredential(
+            new VisualStudioCredential(),   
+            new AzureCliCredential(),        
+            new AzureDeveloperCliCredential() 
+        );
+
+        var chatClient = new AzureOpenAIClient(new Uri(settings.Value.EndPoint), credential)
             .GetChatClient(settings.Value.DeploymentName);
 
         ChatOptions chatOptions = new()
