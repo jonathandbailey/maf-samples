@@ -11,9 +11,9 @@ public static  class A2ASampleExtensions
     {
         var a2AAgent = await a2ADiscoveryService.DiscoverAgentAsync("https://localhost:7251/", "/api/a2a/weather/v1/card");
 
-        var a2ATool = AgentTools.CreateToolFromA2A(a2AAgent.Agent, a2AAgent.Card);
+        var tools = AgentTools.CreateToolsFromA2ACard(a2AAgent.Agent, a2AAgent.Card);
 
-        var agent = await agentFactory.Create([a2ATool]);
+        var agent = await agentFactory.Create([..tools]);
 
         return agent;
     }

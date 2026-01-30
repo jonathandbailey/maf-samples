@@ -38,29 +38,11 @@ public static  class AgentTools
         return ToolMetas[name];
     }
 
-    public static AIFunction CreateToolFromA2A(A2AAgent a2AAgent, AgentCard agentCard)
+    public static List<AIFunction> CreateToolsFromA2ACard(A2AAgent a2AAgent, AgentCard agentCard)
     {
-        var skill = agentCard.Skills.First();
+        return agentCard.Skills.Select(skill => AIFunctionFactory.Create(RunAgentAsync, Create(skill))).ToList();
 
-        AIFunctionFactoryOptions options = new()
-        {
-            Name = skill.Name,
-            Description = $$"""
-                            {
-                                "description": "{{skill.Description}}",
-                                "tags": "[{{string.Join(", ", skill.Tags ?? [])}}]",
-                                "examples": "[{{string.Join(", ", skill.Examples ?? [])}}]",
-                                "inputModes": "[{{string.Join(", ", skill.InputModes ?? [])}}]",
-                                "outputModes": "[{{string.Join(", ", skill.OutputModes ?? [])}}]"
-                            }
-                            """,
-        };
-
-        return AIFunctionFactory.Create(RunAgentAsync, options);
-
-        async Task<string> RunAgentAsync(
-           
-            string message, CancellationToken cancellationToken)
+        async Task<string> RunAgentAsync(string message, CancellationToken cancellationToken)
         {
             var response = await a2AAgent.RunAsync(message, cancellationToken: cancellationToken);
 
@@ -71,5 +53,23 @@ public static  class AgentTools
 
             return "Unable to extract message from response.";
         }
+    }
+
+    private static AIFunctionFactoryOptions Create(AgentSkill skill)
+    {
+        var additionalProperties = new Dictionary<string, object?>
+        {
+            ["tags"] = skill.Tags,
+            ["examples"] = skill.Examples ?? [],
+            ["inputModes"] = skill.InputModes ?? [],
+            ["outputModes"] = skill.OutputModes ?? []
+        };
+
+        return new AIFunctionFactoryOptions
+        {
+            Name = skill.Name,
+            Description = skill.Description,
+            AdditionalProperties = additionalProperties
+        };
     }
 }
