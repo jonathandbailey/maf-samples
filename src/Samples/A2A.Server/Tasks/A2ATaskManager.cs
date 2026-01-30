@@ -1,4 +1,5 @@
-﻿using Shared.Agents;
+﻿using A2A.Server.Services;
+using Shared.Agents;
 
 namespace A2A.Server.Tasks;
 
@@ -6,27 +7,38 @@ namespace A2A.Server.Tasks;
 public class A2ATaskManager: IA2ATaskManager
 {
     private readonly IAgentFactory _agentFactory;
+    private readonly IA2ACardService _cardService;
     public ITaskManager TaskManager { get; } = new TaskManager();
 
-    public A2ATaskManager(IAgentFactory agentFactory)
+    public A2ATaskManager(IAgentFactory agentFactory, IA2ACardService cardService)
     {
         _agentFactory = agentFactory;
+        _cardService = cardService;
+
         TaskManager.OnTaskCreated += OnTaskCreated;
+        TaskManager.OnAgentCardQuery+= OnAgentCardQuery;
+    }
+
+    private Task<AgentCard> OnAgentCardQuery(string url, CancellationToken cancellationToken)
+    {
+        return _cardService.GetAgentCard(url);
     }
 
     private async Task OnTaskCreated(AgentTask agentTask, CancellationToken cancellationToken)
     {
-        var messageText = agentTask.History.OfType<AgentMessage>().First().Parts.OfType<TextPart>().First().Text;
+        var chatMessages = agentTask.ExtractTextPartsFromMessageHistory();
 
         var agent = await _agentFactory.Create(AgentTools.GetTools());
 
-        var response = await agent.RunAsync(messageText, cancellationToken: cancellationToken);
+        var response = await agent.RunAsync(chatMessages, cancellationToken: cancellationToken);
+
+        var textParts = response.ExtractChatMessageTextFromAgentResponse();
 
         var message = new AgentMessage
         {
             Role = MessageRole.Agent,
             ContextId = agentTask.ContextId,
-            Parts = [ new TextPart { Text = response.Text } ]
+            Parts = textParts.Cast<Part>().ToList()
         };
 
         await TaskManager.UpdateStatusAsync(agentTask.Id, TaskState.Completed, message, final: true, cancellationToken);

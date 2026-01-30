@@ -1,3 +1,4 @@
+using A2A.Server.Services;
 using A2A.Server.Tasks;
 using Shared.Agents;
 using Shared.Settings;
@@ -12,6 +13,7 @@ builder.Services.Configure<LanguageModelSettings>(settings =>
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<IA2ATaskManager, A2ATaskManager>();
+builder.Services.AddSingleton<IA2ACardService, A2ACardService>();
 builder.Services.AddSingleton<IAgentFactory, AgentFactory>();
 
 var app = builder.Build();
@@ -27,7 +29,7 @@ app.UseHttpsRedirection();
 
 var workflowService = app.Services.GetRequiredService<IA2ATaskManager>();
 
-app.MapA2A(workflowService.TaskManager, "/api/a2a/tasks");
+app.MapA2A(workflowService.TaskManager, "/api/a2a/weather");
 
 app.Run();
 

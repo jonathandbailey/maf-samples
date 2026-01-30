@@ -1,3 +1,4 @@
+using A2A.Client.Services;
 using Api;
 using Shared.Agents;
 using Shared.Settings;
@@ -10,6 +11,7 @@ builder.Services.Configure<LanguageModelSettings>(settings =>
     builder.Configuration.GetSection(nameof(LanguageModelSettings)).Bind(settings));
 
 builder.Services.AddSingleton<IAgentFactory, AgentFactory>();
+builder.Services.AddSingleton<IA2AAgentDiscoveryService, A2AAgentDiscoveryService>();
 
 builder.Services.AddOpenApi();
 
