@@ -1,7 +1,9 @@
-﻿using Microsoft.Agents.AI;
+﻿using System.Text;
+using A2A;
+using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 
-namespace A2A.Server;
+namespace Shared.Extensions;
 
 public static class A2AExtensions
 {
@@ -34,6 +36,30 @@ public static class A2AExtensions
         }
 
         return chatMessages;
+    }
+
+    public static string ExtractTextPartsFromMessage(this AgentTask agentTask)
+    {
+        if (agentTask.Status.Message == null)
+        {
+            throw new InvalidOperationException("AgentTask Status Message is null.");
+        }
+
+        if (agentTask.Status.Message.Parts.Count == 0)
+        {
+            throw new InvalidOperationException("AgentTask Status Message Parts is empty.");
+        }
+
+        var parts = agentTask.Status.Message.Parts.OfType<TextPart>().ToList();
+
+        var stringBuilder = new StringBuilder();
+
+        foreach (var textPart in parts)
+        {
+            stringBuilder.Append(textPart.Text);
+        }
+
+        return stringBuilder.ToString();
     }
 
     public static List<TextPart> ExtractChatMessageTextFromAgentResponse(this AgentResponse response)

@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using A2A;
+using Microsoft.Agents.AI.A2A;
 using Microsoft.Extensions.AI;
+using Shared.Extensions;
 
 namespace Shared.Agents;
 
@@ -33,5 +36,40 @@ public static  class AgentTools
     public static AIFunction Get(string name)
     {
         return ToolMetas[name];
+    }
+
+    public static AIFunction CreateToolFromA2A(A2AAgent a2AAgent, AgentCard agentCard)
+    {
+        var skill = agentCard.Skills.First();
+
+        AIFunctionFactoryOptions options = new()
+        {
+            Name = skill.Name,
+            Description = $$"""
+                            {
+                                "description": "{{skill.Description}}",
+                                "tags": "[{{string.Join(", ", skill.Tags ?? [])}}]",
+                                "examples": "[{{string.Join(", ", skill.Examples ?? [])}}]",
+                                "inputModes": "[{{string.Join(", ", skill.InputModes ?? [])}}]",
+                                "outputModes": "[{{string.Join(", ", skill.OutputModes ?? [])}}]"
+                            }
+                            """,
+        };
+
+        return AIFunctionFactory.Create(RunAgentAsync, options);
+
+        async Task<string> RunAgentAsync(
+           
+            string message, CancellationToken cancellationToken)
+        {
+            var response = await a2AAgent.RunAsync(message, cancellationToken: cancellationToken);
+
+            if (response.RawRepresentation is AgentTask agentTask)
+            {
+                return agentTask.ExtractTextPartsFromMessage();
+            }
+
+            return "Unable to extract message from response.";
+        }
     }
 }

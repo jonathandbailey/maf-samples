@@ -1,5 +1,6 @@
 ﻿using A2A.Server.Services;
 using Shared.Agents;
+using Shared.Extensions;
 
 namespace A2A.Server.Tasks;
 
