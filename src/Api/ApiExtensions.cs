@@ -1,6 +1,6 @@
 ﻿using A2A.Client;
 using A2A.Client.Services;
-using AGUI.StateSnapShotEvents;
+using AGUI;
 using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
 using Shared.Agents;
 using Tools.ManualToolCall;
