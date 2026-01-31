@@ -70,3 +70,26 @@ This sample demonstrates how to manually handle tool/function calls in a custom 
 
 [View Full Documentation](src/Samples/Tools/ManualToolCall/README.md)
 
+---
+
+### A2A Tasks
+**Location**: `src/Samples/A2A.Server/Tasks/`  
+**Endpoint**: `/a2a/task`
+
+This sample demonstrates how to implement an Agent-to-Agent (A2A) task-based communication pattern using the Microsoft Agent Framework. The A2A protocol enables asynchronous communication between agents, where one agent can delegate tasks to another agent and receive status updates and results over time.
+
+**Key Features**
+- Task lifecycle management through event-driven callbacks
+- Agent task creation and execution orchestration
+- Agent card discovery for agent-to-agent communication
+- Asynchronous status updates and result delivery
+
+**Key Scenarios**
+- Asynchronous task delegation between agents
+- Long-running agent workflows with status tracking
+- Agent discovery and dynamic tool integration
+- Distributed agent orchestration in multi-agent systems
+- Real-time task status updates and result delivery
+
+[View Full Documentation](src/Samples/A2A.Server/Tasks/README.md)
+
