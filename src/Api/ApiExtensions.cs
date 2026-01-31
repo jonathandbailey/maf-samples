@@ -1,6 +1,6 @@
-﻿using A2A.Client;
-using A2A.Client.Services;
+﻿using A2A.Client.Services;
 using A2A.Client.Settings;
+using A2A.Client.Tasks;
 using AGUI;
 using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
 using Microsoft.Extensions.Options;

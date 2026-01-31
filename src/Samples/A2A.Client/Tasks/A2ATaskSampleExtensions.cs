@@ -4,9 +4,9 @@ using Microsoft.Agents.AI;
 using Microsoft.Extensions.Options;
 using Shared.Agents;
 
-namespace A2A.Client;
+namespace A2A.Client.Tasks;
 
-public static  class A2ASampleExtensions
+public static  class A2ATaskSampleExtensions
 {
     public static async Task<AIAgent> CreateA2AAgentTask(this IAgentFactory agentFactory,
         IA2AAgentDiscoveryService a2ADiscoveryService,
