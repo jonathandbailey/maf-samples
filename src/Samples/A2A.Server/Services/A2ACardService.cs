@@ -3,22 +3,9 @@ using Microsoft.Extensions.Options;
 
 namespace A2A.Server.Services;
 
-public class A2ACardService : IA2ACardService
+public class A2ACardService(IOptions<CardSettings> cardSettings) : IA2ACardService
 {
-    private readonly List<AgentCard> _agentCards;
-
-    public A2ACardService(IOptions<CardSettings> cardSettings)
-    {
-        _agentCards = cardSettings.Value.AgentCards;
-    }
-
-    private void UpdateRelativeUrl(CardSettings cardSettings)
-    {
-        foreach (var agentCard in _agentCards)
-        {
-            agentCard.Url = $"{cardSettings.BaseUrl}{agentCard.Url}";
-        }
-    }
+    private readonly List<AgentCard> _agentCards = cardSettings.Value.AgentCards;
 
     public Task<AgentCard> GetAgentCard(string url)
     {

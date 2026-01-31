@@ -1,7 +1,7 @@
+using A2A.Server;
 using A2A.Server.Services;
 using A2A.Server.Settings;
 using A2A.Server.Tasks;
-using Microsoft.Extensions.Options;
 using Shared.Agents;
 using Shared.Settings;
 
@@ -34,12 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var workflowService = app.Services.GetRequiredService<IA2ATaskManager>();
-var cardSettings = app.Services.GetRequiredService<IOptions<CardSettings>>();
-var weatherCardPath = cardSettings.Value.AgentCards.FirstOrDefault(c => c.Name == "Weather")?.Url
-    ?? throw new InvalidOperationException("Weather agent card configuration not found");
-
-app.MapA2A(workflowService.TaskManager, $"{weatherCardPath}");
+app.MapA2ATaskSample();
 
 app.Run();
 
