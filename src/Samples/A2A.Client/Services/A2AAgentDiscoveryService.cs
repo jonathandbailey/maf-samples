@@ -10,7 +10,9 @@ public class A2AAgentDiscoveryService : IA2AAgentDiscoveryService
 
         var card = await cardResolver.GetAgentCardAsync();
 
-        var client = new A2AClient(new Uri(card.Url), new HttpClient());
+        var clientUri = new Uri($"{url}{card.Url}");
+
+        var client = new A2AClient(clientUri, new HttpClient());
 
         var agent = new A2AAgent(client, name: card.Name, description: card.Description);
 
