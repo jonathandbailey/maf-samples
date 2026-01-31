@@ -1,26 +1,17 @@
-﻿namespace A2A.Server.Services;
+﻿using A2A.Server.Settings;
+using Microsoft.Extensions.Options;
+
+namespace A2A.Server.Services;
+
 
 public class A2ACardService : IA2ACardService
 {
-    private readonly List<AgentCard> _agentCards =
-    [
-        new AgentCard
-        {
-            Name = "Weather",
-            Description = "An agent that provides weather information.",
-            Url = "https://localhost:7251/api/a2a/weather",
-            Skills =
-            [
-                new AgentSkill
-                {
-                    Name = "Get_Weather",
-                    Description = "Get current weather information.",
-                    InputModes = ["What is the weather like in Paris?"]
-                }
-            ],
-            Version = "1.0"
-        }
-    ];
+    private readonly List<AgentCard> _agentCards;
+
+    public A2ACardService(IOptions<CardSettings> cardSettings)
+    {
+        _agentCards = cardSettings.Value.AgentCards;
+    }
 
     public Task<AgentCard> GetAgentCard(string url)
     {

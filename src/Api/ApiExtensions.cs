@@ -1,7 +1,9 @@
 ﻿using A2A.Client;
 using A2A.Client.Services;
+using A2A.Client.Settings;
 using AGUI;
 using Microsoft.Agents.AI.Hosting.AGUI.AspNetCore;
+using Microsoft.Extensions.Options;
 using Shared.Agents;
 using Tools.ManualToolCall;
 
@@ -16,6 +18,8 @@ public static class ApiExtensions
 
         var a2ADiscoveryService = app.Services.GetRequiredService<IA2AAgentDiscoveryService>();
 
+        var discoverySettings = app.Services.GetRequiredService<IOptions<A2ADiscoverySettings>>();
+
         var agUiAgent = await agentFactory.CreateAgUiSnapShotAgent();
 
         app.MapAGUI(Routes.AGUISnapshotRoute, agUiAgent);
@@ -24,7 +28,7 @@ public static class ApiExtensions
 
         app.MapAGUI(Routes.ManualToolCallRoute, toolCallAgent);
 
-        var a2AAgent = await agentFactory.CreateA2AAgentTask(a2ADiscoveryService);
+        var a2AAgent = await agentFactory.CreateA2AAgentTask(a2ADiscoveryService, discoverySettings);
 
         app.MapAGUI(Routes.AGUIA2A, a2AAgent);
     }

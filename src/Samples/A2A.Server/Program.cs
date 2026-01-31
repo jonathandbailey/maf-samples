@@ -1,4 +1,5 @@
 using A2A.Server.Services;
+using A2A.Server.Settings;
 using A2A.Server.Tasks;
 using Shared.Agents;
 using Shared.Settings;
@@ -9,6 +10,9 @@ builder.AddServiceDefaults();
 
 builder.Services.Configure<LanguageModelSettings>(settings =>
     builder.Configuration.GetSection(nameof(LanguageModelSettings)).Bind(settings));
+
+builder.Services.Configure<CardSettings>(settings =>
+    builder.Configuration.GetSection(nameof(CardSettings)).Bind(settings));
 
 builder.Services.AddOpenApi();
 
