@@ -1,7 +1,8 @@
-﻿using Microsoft.Agents.AI;
+﻿using AGUI.StateSnapShotEvents;
+using Microsoft.Agents.AI;
 using Shared.Agents;
 
-namespace AGUI.StateSnapShotEvents;
+namespace AGUI;
 
 public static  class AGUISnapShotExtensions
 {

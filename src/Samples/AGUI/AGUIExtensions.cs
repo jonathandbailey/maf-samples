@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
+using AGUI.StateSnapShotEvents;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 
-namespace AGUI.StateSnapShotEvents;
+namespace AGUI;
 
 public static class AGUIExtensions
 {

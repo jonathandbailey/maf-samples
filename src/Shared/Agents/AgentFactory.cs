@@ -9,7 +9,7 @@ namespace Shared.Agents;
 
 public class AgentFactory(IOptions<LanguageModelSettings> settings) : IAgentFactory
 {
-    private const string AgentInstructions = "You are a helpful assistant that answers questions.";
+    private const string AgentInstructions = "You are a helpful assistant that answers questions.Use the tools provided to assist with your tasks.";
     private const string AssistantName = "Assistant";
 
     public async Task<AIAgent> Create(List<AITool>? tools = null)
