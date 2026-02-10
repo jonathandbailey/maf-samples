@@ -14,7 +14,7 @@ public class ManualToolCallAgent(AIAgent agent) : DelegatingAIAgent(agent)
         AgentRunOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var agentSession = await InnerAgent.GetNewSessionAsync(cancellationToken);
+        var agentSession = await InnerAgent.CreateSessionAsync(cancellationToken);
         
         var tools = new Dictionary<string, FunctionCallContent>();
 
