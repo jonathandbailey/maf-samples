@@ -93,3 +93,25 @@ This sample demonstrates how to implement an Agent-to-Agent (A2A) task-based com
 
 [View Full Documentation](src/Samples/A2A.Server/Tasks/README.md)
 
+---
+
+### TDD
+**Location**: `src/Samples/Tests/`
+
+This sample demonstrates Test-Driven Development (TDD) patterns for building and testing AI agents using the Microsoft Agent Framework. It showcases how to write unit tests for agent behavior, tool calls, and structured outputs, enabling you to develop agents with confidence through automated testing.
+
+**Key Features**
+- Testing agent tool call behavior with declaration-only tools
+- Validating structured agent responses using custom assertions
+- Testing agent template loading and configuration
+- Implementing testable agent patterns with helper utilities
+
+**Key Scenarios**
+- Testing agent tool call behavior with declaration-only tools
+- Validating structured agent responses using custom assertions
+- Testing agent template loading and configuration
+- Implementing testable agent patterns with helper utilities
+- Verifying agent reasoning and information gathering workflows
+
+[View Full Documentation](src/Samples/Tests/README.md)
+
