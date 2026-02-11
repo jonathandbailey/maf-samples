@@ -139,4 +139,45 @@ public static class AgentResponseHelper
 
         return new AndConstraint<GenericCollectionAssertions<FunctionCallContent>>(assertions);
     }
+
+    public static AndConstraint<GenericCollectionAssertions<FunctionCallContent>> ShouldHaveRequiredInputs(
+        this GenericCollectionAssertions<FunctionCallContent> assertions, string argumentKey, int expectedCount, string[] requiredInputs)
+    {
+        var subject = assertions.Subject.ToList();
+
+        var isValid = subject.Any(fc =>
+        {
+            if (fc.Arguments == null || !fc.Arguments.ContainsKey(argumentKey))
+                return false;
+
+            try
+            {
+                var argumentValue = fc.Arguments[argumentKey];
+                if (argumentValue == null)
+                    return false;
+
+                var jsonString = argumentValue.ToString();
+                if (string.IsNullOrEmpty(jsonString))
+                    return false;
+
+                var dto = JsonSerializer.Deserialize<RequestInformationDto>(jsonString, JsonSerializerOptions);
+                if (dto?.RequiredInputs == null)
+                    return false;
+
+                if (dto.RequiredInputs.Count != expectedCount)
+                    return false;
+
+                return requiredInputs.All(input => dto.RequiredInputs.Contains(input));
+            }
+            catch
+            {
+                return false;
+            }
+        });
+
+        isValid.Should().BeTrue(
+            $"the RequestInformationDto should have {expectedCount} required inputs: [{string.Join(", ", requiredInputs)}]");
+
+        return new AndConstraint<GenericCollectionAssertions<FunctionCallContent>>(assertions);
+    }
 }

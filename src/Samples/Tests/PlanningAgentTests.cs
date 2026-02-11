@@ -46,19 +46,11 @@ public class PlanningAgentTests
         var response = await agent.RunAsync(chatMessage);
 
         response.FunctionCalls()
-            .Should().HaveCount(1)
-            .And
-            .ShouldContainCall(RequestInformationToolName)
-            .And
-            .ShouldHaveArgumentKey(ToolCallArgumentKey)
-            .And
-            .ShouldHaveArgumentOfType<RequestInformationDto>(ToolCallArgumentKey)
-            .And
-            .ShouldHaveRequiredInputsCount(ToolCallArgumentKey, 2)
-            .And
-            .ShouldContainRequiredInput(ToolCallArgumentKey, "Origin")
-            .And
-            .ShouldContainRequiredInput(ToolCallArgumentKey, "ReturnDate");
+            .Should().HaveCount(1).And
+            .ShouldContainCall(RequestInformationToolName).And
+            .ShouldHaveArgumentKey(ToolCallArgumentKey).And
+            .ShouldHaveArgumentOfType<RequestInformationDto>(ToolCallArgumentKey).And
+            .ShouldHaveRequiredInputs(ToolCallArgumentKey, 2, ["Origin", "ReturnDate"]);
     }
 
 }
