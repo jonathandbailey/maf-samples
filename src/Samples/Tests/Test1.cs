@@ -1,31 +1,26 @@
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Moq;
 using Shared.Agents;
-using Shared.Infrastructure;
-using Shared.Settings;
+using Tests.Helpers;
 
 namespace Tests;
 
-public class Test1
+public class PlanningAgentTests
 {
-    private const string AgentTemplateFolder = "Templates";
     private const string PlanningYaml = "planning.yaml";
 
+    private const string Destination = "Paris";
+    private const int NumberOfTravelers = 2;
+    private static readonly DateTime DepartureDate = new(2026, 5, 1);
+
+    private const string RequestInformationToolName = "RequestInformation";
+    private const string ToolCallArgumentKey = "requestInformationDto";
+
+    private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
+
     [Fact]
-    public async Task LoadTemplate()
+    public async Task ShouldLoadPlanningTemplate()
     {
-        var fileStorageSettings = Options.Create(new FileStorageSettings
-        {
-            AgentTemplateFolder = AgentTemplateFolder,
-            
-        });
-
-        var mockLogger = new Mock<ILogger<AgentTemplateRepository>>();
-
-        var templateRepository = new AgentTemplateRepository(mockLogger.Object, fileStorageSettings);
+        var templateRepository = InfrastructureHelper.Create();
 
         var template = await templateRepository.LoadAsync(PlanningYaml);
 
@@ -33,36 +28,36 @@ public class Test1
     }
 
     [Fact]
-    public async Task RunAgent()
+    public async Task ShouldRequestMissingInformation_WhenTravelPlanIsIncomplete()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<Test1>()
-            .Build();
+        var languageModelSettings = SettingsHelper.GetLanguageModelSettings();
 
-        var languageModelSettings = Options.Create(new LanguageModelSettings
-        {
-            DeploymentName = configuration["LanguageModelSettings:DeploymentName"] ?? string.Empty,
-            EndPoint = configuration["LanguageModelSettings:EndPoint"] ?? string.Empty,
-        });
+        var templateRepository = InfrastructureHelper.Create();
 
         var agentFactory = new AgentFactory(languageModelSettings);
 
-        var fileStorageSettings = Options.Create(new FileStorageSettings
-        {
-            AgentTemplateFolder = AgentTemplateFolder,
-
-        });
-
-        var mockLogger = new Mock<ILogger<AgentTemplateRepository>>();
-
-        var templateRepository = new AgentTemplateRepository(mockLogger.Object, fileStorageSettings);
-
         var template = await templateRepository.LoadAsync(PlanningYaml);
 
-        var agent = await agentFactory.Create(template);
+        var agent = await agentFactory.Create(template, PlanningTools.GetDeclarationOnlyTools());
 
-        var response = await agent.RunAsync("What is the capital of France?");
+        var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
+        var response = await agent.RunAsync(chatMessage);
 
+        response.FunctionCalls()
+            .Should().HaveCount(1)
+            .And
+            .ShouldContainCall(RequestInformationToolName)
+            .And
+            .ShouldHaveArgumentKey(ToolCallArgumentKey)
+            .And
+            .ShouldHaveArgumentOfType<RequestInformationDto>(ToolCallArgumentKey)
+            .And
+            .ShouldHaveRequiredInputsCount(ToolCallArgumentKey, 2)
+            .And
+            .ShouldContainRequiredInput(ToolCallArgumentKey, "Origin")
+            .And
+            .ShouldContainRequiredInput(ToolCallArgumentKey, "ReturnDate");
     }
+
 }
