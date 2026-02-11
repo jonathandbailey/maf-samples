@@ -4,7 +4,7 @@ using FluentAssertions.Collections;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 
-namespace Tests.Helpers;
+namespace TDD.Helpers;
 
 public static class AgentResponseHelper
 {

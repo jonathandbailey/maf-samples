@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.AI;
 
-namespace Tests.Helpers;
+namespace TDD.Helpers;
 
 public static class TravelPlanHelper
 {

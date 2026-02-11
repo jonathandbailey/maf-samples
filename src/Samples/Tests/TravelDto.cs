@@ -1,4 +1,4 @@
-﻿namespace Tests;
+﻿namespace TDD;
 
 public record TravelPlanDto(
     string? Origin = null, 

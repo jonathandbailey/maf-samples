@@ -4,7 +4,7 @@ using Moq;
 using Shared.Infrastructure;
 using Shared.Settings;
 
-namespace Tests.Helpers;
+namespace TDD.Helpers;
 
 public static class InfrastructureHelper
 {

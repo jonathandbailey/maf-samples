@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.Extensions.AI;
 
-namespace Tests;
+namespace TDD;
 
 public static class PlanningTools
 {

@@ -1,8 +1,8 @@
 using FluentAssertions;
 using Shared.Agents;
-using Tests.Helpers;
+using TDD.Helpers;
 
-namespace Tests;
+namespace TDD;
 
 public class PlanningAgentTests
 {
