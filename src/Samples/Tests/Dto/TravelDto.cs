@@ -1,4 +1,4 @@
-﻿namespace TDD;
+﻿namespace TDD.Dto;
 
 public record TravelPlanDto(
     string? Origin = null, 

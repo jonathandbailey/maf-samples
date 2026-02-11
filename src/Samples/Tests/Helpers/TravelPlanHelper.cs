@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.AI;
+using TDD.Dto;
 
 namespace TDD.Helpers;
 

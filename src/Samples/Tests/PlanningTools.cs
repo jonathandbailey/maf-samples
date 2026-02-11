@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.Extensions.AI;
+using TDD.Dto;
 
 namespace TDD;
 

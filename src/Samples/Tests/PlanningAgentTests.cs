@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Shared.Agents;
+using TDD.Dto;
 using TDD.Helpers;
 
 namespace TDD;

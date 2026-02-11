@@ -3,6 +3,7 @@ using FluentAssertions;
 using FluentAssertions.Collections;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using TDD.Dto;
 
 namespace TDD.Helpers;
 
