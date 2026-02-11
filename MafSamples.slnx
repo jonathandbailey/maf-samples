@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/Samples/">
     <Project Path="src/Samples/AGUI/AGUI.csproj" />
+    <Project Path="src/Samples/Tests/Tests.csproj" Id="a96a13b1-002f-441e-a4d6-7c08d065984f" />
     <Project Path="src/Samples/Tools/Tools.csproj" />
   </Folder>
   <Folder Name="/Samples/A2A/">
