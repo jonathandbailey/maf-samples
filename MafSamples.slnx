@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/Samples/">
     <Project Path="src/Samples/AGUI/AGUI.csproj" />
+    <Project Path="src/Samples/Tests/TDD.csproj" Id="a96a13b1-002f-441e-a4d6-7c08d065984f" />
     <Project Path="src/Samples/Tools/Tools.csproj" />
   </Folder>
   <Folder Name="/Samples/A2A/">
@@ -12,6 +13,7 @@
     <Project Path="src/Samples/A2A.Server/A2A.Server.csproj" />
   </Folder>
   <Folder Name="/_Solution Items/">
+    <File Path="CLAUDE.md" />
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
