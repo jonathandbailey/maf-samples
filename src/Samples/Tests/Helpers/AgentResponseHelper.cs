@@ -141,7 +141,7 @@ public static class AgentResponseHelper
     }
 
     public static AndConstraint<GenericCollectionAssertions<FunctionCallContent>> ShouldHaveRequiredInputs(
-        this GenericCollectionAssertions<FunctionCallContent> assertions, string argumentKey, int expectedCount, string[] requiredInputs)
+        this GenericCollectionAssertions<FunctionCallContent> assertions, string argumentKey, int expectedCount, List<string> requiredInputs)
     {
         var subject = assertions.Subject.ToList();
 

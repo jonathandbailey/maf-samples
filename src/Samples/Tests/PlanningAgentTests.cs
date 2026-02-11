@@ -16,10 +16,12 @@ public class PlanningAgentTests
     private const string RequestInformationToolName = "RequestInformation";
     private const string ToolCallArgumentKey = "requestInformationDto";
 
+    private readonly List<string> _expectedKeys = ["Origin", "ReturnDate"];
+
     private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
 
     [Fact]
-    public async Task ShouldLoadPlanningTemplate()
+    public async Task AgentTemplateRepository_ShouldLoadPlanningTemplate()
     {
         var templateRepository = InfrastructureHelper.Create();
 
@@ -29,7 +31,7 @@ public class PlanningAgentTests
     }
 
     [Fact]
-    public async Task ShouldRequestMissingInformation_WhenTravelPlanIsIncomplete()
+    public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete()
     {
         var languageModelSettings = SettingsHelper.GetLanguageModelSettings();
 
@@ -50,7 +52,7 @@ public class PlanningAgentTests
             .ShouldContainCall(RequestInformationToolName).And
             .ShouldHaveArgumentKey(ToolCallArgumentKey).And
             .ShouldHaveArgumentOfType<RequestInformationDto>(ToolCallArgumentKey).And
-            .ShouldHaveRequiredInputs(ToolCallArgumentKey, 2, ["Origin", "ReturnDate"]);
+            .ShouldHaveRequiredInputs(ToolCallArgumentKey, _expectedKeys.Count, _expectedKeys);
     }
 
 }
