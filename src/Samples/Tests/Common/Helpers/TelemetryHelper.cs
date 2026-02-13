@@ -11,7 +11,7 @@ public static class TelemetryHelper
     public static void Initialize()
     {
   
-        var otlpEndpoint = "https://localhost:21299";
+        var otlpEndpoint = "https://localhost:21291";
 
         _tracerProvider = Sdk.CreateTracerProviderBuilder()
             .SetResourceBuilder(ResourceBuilder.CreateDefault()
@@ -21,7 +21,7 @@ public static class TelemetryHelper
             {
                 options.Endpoint = new Uri(otlpEndpoint);
                 options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
-                options.Headers = "x-otlp-api-key=e4e4842e009198e02c7803008206eec9";
+                options.Headers = "x-otlp-api-key=537f36931ab1e7b3e3a919d4cc7ccb87";
 
             })
             .Build();

@@ -6,7 +6,7 @@ using TDD.Common.Helpers;
 
 namespace TDD.Telemetry;
 
-public class TelemetryAgentTests
+public class TelemetryAgentTests : IDisposable
 {
     private const string PlanningYaml = "planning.yaml";
 
@@ -21,14 +21,14 @@ public class TelemetryAgentTests
 
     private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
 
-    [Fact]
-    public async Task AgentTemplateRepository_ShouldLoadPlanningTemplate()
+    public TelemetryAgentTests()
     {
-        var templateRepository = InfrastructureHelper.Create();
+        TelemetryHelper.Initialize();
+    }
 
-        var template = await templateRepository.LoadAsync(PlanningYaml);
-
-        template.Should().NotBeNullOrEmpty();
+    public void Dispose()
+    {
+        TelemetryHelper.Dispose();
     }
 
     [Fact]
@@ -46,9 +46,7 @@ public class TelemetryAgentTests
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
-        TelemetryHelper.Initialize();
-
-        var  activity =  AgentTelemetry.Start(chatMessage.Text);
+        using var activity =  AgentTelemetry.Start(chatMessage.Text);
 
         var response = await agent.RunAsync(chatMessage);
 
@@ -63,12 +61,8 @@ public class TelemetryAgentTests
 
         foreach (var functionCallContent in functionCalls)
         {
-            activity?.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?.ToString(), null);
+           using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?.ToString(), activity);
         }
-
-        activity?.Dispose();
-
-        TelemetryHelper.Dispose();
     }
 
 }

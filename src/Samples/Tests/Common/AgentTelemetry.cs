@@ -21,7 +21,7 @@ public static class AgentTelemetry
         return source;
     }
 
-    public static Activity ToolCall(this Activity activity, string key, string arguments, Activity? parent)
+    public static Activity? ToolCall(string key, string arguments, Activity? parent)
     {
         var tags = new ActivityTagsCollection
         {
@@ -29,11 +29,11 @@ public static class AgentTelemetry
             { "gen_ai.tool.parameters", arguments }
         };
 
-        activity.SetTag("gen_ai.tool.name", key);
-        activity.SetTag("gen_ai.tool.parameters", arguments);
+        var source = Source.StartActivity($"execute_tool {key}", ActivityKind.Internal, parent?.Id, tags);
 
-        return activity;
+        return source;
     }
 
-    
+
+
 }
