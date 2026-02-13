@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Shared.Agents;
 using TDD.Common;
 using TDD.Common.Dto;
 using TDD.Common.Helpers;
@@ -8,8 +7,6 @@ namespace TDD.Telemetry;
 
 public class TelemetryAgentTests : IDisposable
 {
-    private const string PlanningYaml = "planning.yaml";
-
     private const string Destination = "Paris";
     private const int NumberOfTravelers = 2;
     private static readonly DateTime DepartureDate = new(2026, 5, 1);
@@ -34,15 +31,7 @@ public class TelemetryAgentTests : IDisposable
     [Fact]
     public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete()
     {
-        var languageModelSettings = SettingsHelper.GetLanguageModelSettings();
-
-        var templateRepository = InfrastructureHelper.Create();
-
-        var agentFactory = new AgentFactory(languageModelSettings);
-
-        var template = await templateRepository.LoadAsync(PlanningYaml);
-
-        var agent = await agentFactory.Create(template, PlanningTools.GetDeclarationOnlyTools());
+        var agent = await AgentFactoryHelper.CreatePlanningAgent();
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
