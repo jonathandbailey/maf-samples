@@ -3,9 +3,9 @@ using FluentAssertions;
 using FluentAssertions.Collections;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
-using TDD.Dto;
+using TDD.Common.Dto;
 
-namespace TDD.Helpers;
+namespace TDD.Common.Helpers;
 
 public static class AgentResponseHelper
 {

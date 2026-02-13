@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Shared.Settings;
+using TDD.Agents;
 
-namespace TDD.Helpers;
+namespace TDD.Common.Helpers;
 
 public static class SettingsHelper
 {

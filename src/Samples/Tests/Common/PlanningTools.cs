@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using Microsoft.Extensions.AI;
-using TDD.Dto;
+using TDD.Common.Dto;
 
-namespace TDD;
+namespace TDD.Common;
 
 public static class PlanningTools
 {

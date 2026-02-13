@@ -1,9 +1,10 @@
 using FluentAssertions;
 using Shared.Agents;
-using TDD.Dto;
-using TDD.Helpers;
+using TDD.Common;
+using TDD.Common.Dto;
+using TDD.Common.Helpers;
 
-namespace TDD;
+namespace TDD.Agents;
 
 public class PlanningAgentTests
 {
