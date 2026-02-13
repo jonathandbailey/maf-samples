@@ -21,7 +21,7 @@ public static class AgentTelemetry
         return source;
     }
 
-    public static Activity? ToolCall(string key, string arguments, Activity? parent)
+    public static Activity? ToolCall(string key, object? arguments, Activity? parent)
     {
         var tags = new ActivityTagsCollection
         {

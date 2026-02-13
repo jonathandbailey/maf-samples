@@ -1,3 +1,4 @@
+using System.Text.Json;
 using FluentAssertions;
 using TDD.Common;
 using TDD.Common.Dto;
@@ -31,7 +32,7 @@ public class TelemetryAgentTests : IDisposable
     [Fact]
     public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete()
     {
-        var agent = await AgentFactoryHelper.CreatePlanningAgent();
+        var agent = await AgentFactoryHelper.CreateMockPlanningAgent();
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
@@ -50,7 +51,7 @@ public class TelemetryAgentTests : IDisposable
 
         foreach (var functionCallContent in functionCalls)
         {
-           using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?.ToString(), activity);
+           using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent.Arguments, activity);
         }
     }
 
