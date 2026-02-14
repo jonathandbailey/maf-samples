@@ -1,17 +1,18 @@
-﻿using OpenTelemetry;
+using Microsoft.Extensions.Options;
+using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using TDD.Common.Settings;
 
 namespace TDD.Common.Helpers;
 
-public static class TelemetryHelper 
+public static class TelemetryHelper
 {
     private static TracerProvider? _tracerProvider;
 
-    public static void Initialize()
+    public static void Initialize(IOptions<AspireDashboardSettings> settings)
     {
-  
-        var otlpEndpoint = "https://localhost:21291";
+        var dashboardSettings = settings.Value;
 
         _tracerProvider = Sdk.CreateTracerProviderBuilder()
             .SetResourceBuilder(ResourceBuilder.CreateDefault()
@@ -19,10 +20,9 @@ public static class TelemetryHelper
             .AddSource("TDD*")
             .AddOtlpExporter(options =>
             {
-                options.Endpoint = new Uri(otlpEndpoint);
+                options.Endpoint = new Uri(dashboardSettings.OtlpEndpoint);
                 options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
-                options.Headers = "x-otlp-api-key=537f36931ab1e7b3e3a919d4cc7ccb87";
-
+                options.Headers = $"x-otlp-api-key={dashboardSettings.OtlpApiKey}";
             })
             .Build();
     }

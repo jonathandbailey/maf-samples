@@ -20,7 +20,7 @@ public class TelemetryAgentTests : IDisposable
 
     public TelemetryAgentTests()
     {
-        TelemetryHelper.Initialize();
+        TelemetryHelper.Initialize(SettingsHelper.GetAspireDashboardSettings());
     }
 
     public void Dispose()
