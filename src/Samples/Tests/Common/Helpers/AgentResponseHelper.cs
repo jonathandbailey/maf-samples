@@ -3,9 +3,9 @@ using FluentAssertions;
 using FluentAssertions.Collections;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
-using TDD.Dto;
+using TDD.Common.Dto;
 
-namespace TDD.Helpers;
+namespace TDD.Common.Helpers;
 
 public static class AgentResponseHelper
 {
@@ -66,76 +66,6 @@ public static class AgentResponseHelper
 
         hasValidArgument.Should().BeTrue(
             $"the function calls should contain an argument with key '{argumentKey}' of type '{typeof(T).Name}'");
-
-        return new AndConstraint<GenericCollectionAssertions<FunctionCallContent>>(assertions);
-    }
-
-    public static AndConstraint<GenericCollectionAssertions<FunctionCallContent>> ShouldHaveRequiredInputsCount(
-        this GenericCollectionAssertions<FunctionCallContent> assertions, string argumentKey, int expectedCount)
-    {
-        var subject = assertions.Subject.ToList();
-
-        var hasValidCount = subject.Any(fc =>
-        {
-            if (fc.Arguments == null || !fc.Arguments.ContainsKey(argumentKey))
-                return false;
-
-            try
-            {
-                var argumentValue = fc.Arguments[argumentKey];
-                if (argumentValue == null)
-                    return false;
-
-                var jsonString = argumentValue.ToString();
-                if (string.IsNullOrEmpty(jsonString))
-                    return false;
-
-                var dto = JsonSerializer.Deserialize<RequestInformationDto>(jsonString, JsonSerializerOptions);
-                return dto?.RequiredInputs?.Count == expectedCount;
-            }
-            catch
-            {
-                return false;
-            }
-        });
-
-        hasValidCount.Should().BeTrue(
-            $"the RequestInformationDto should have {expectedCount} required inputs");
-
-        return new AndConstraint<GenericCollectionAssertions<FunctionCallContent>>(assertions);
-    }
-
-    public static AndConstraint<GenericCollectionAssertions<FunctionCallContent>> ShouldContainRequiredInput(
-        this GenericCollectionAssertions<FunctionCallContent> assertions, string argumentKey, string requiredInput)
-    {
-        var subject = assertions.Subject.ToList();
-
-        var containsInput = subject.Any(fc =>
-        {
-            if (fc.Arguments == null || !fc.Arguments.ContainsKey(argumentKey))
-                return false;
-
-            try
-            {
-                var argumentValue = fc.Arguments[argumentKey];
-                if (argumentValue == null)
-                    return false;
-
-                var jsonString = argumentValue.ToString();
-                if (string.IsNullOrEmpty(jsonString))
-                    return false;
-
-                var dto = JsonSerializer.Deserialize<RequestInformationDto>(jsonString, JsonSerializerOptions);
-                return dto?.RequiredInputs?.Contains(requiredInput) == true;
-            }
-            catch
-            {
-                return false;
-            }
-        });
-
-        containsInput.Should().BeTrue(
-            $"the RequestInformationDto should contain required input '{requiredInput}'");
 
         return new AndConstraint<GenericCollectionAssertions<FunctionCallContent>>(assertions);
     }

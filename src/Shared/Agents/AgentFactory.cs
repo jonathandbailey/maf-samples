@@ -59,10 +59,20 @@ public class AgentFactory : IAgentFactory
 
         return agent;
     }
+
+    public async Task<AIAgent> Create(IChatClient chatClient, string template, List<AITool>? tools = null)
+    {
+
+        var agentFactory = new CustomPromptAgentFactory(chatClient, tools: tools);
+        var agent = await agentFactory.CreateFromYamlAsync(template);
+
+        return agent;
+    }
 }
 
 public interface IAgentFactory
 {
     Task<AIAgent> Create(List<AITool>? tools = null);
     Task<AIAgent> Create(string template, List<AITool>? tools = null);
+    Task<AIAgent> Create(IChatClient chatClient, string template, List<AITool>? tools = null);
 }

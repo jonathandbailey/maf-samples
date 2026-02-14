@@ -113,5 +113,27 @@ This sample demonstrates Test-Driven Development (TDD) patterns for building and
 - Implementing testable agent patterns with helper utilities
 - Verifying agent reasoning and information gathering workflows
 
-[View Full Documentation](src/Samples/Tests/README.md)
+[View Full Documentation](src/Samples/Tests/Agents/README.md)
+
+---
+
+### Telemetry
+**Location**: `src/Samples/Tests/Telemetry/`
+
+This sample demonstrates how to add OpenTelemetry tracing to AI agent test runs and export the telemetry to a local .NET Aspire Dashboard. It showcases how to instrument agent invocations and tool calls using `System.Diagnostics.Activity`, giving you full visibility into agent behavior through distributed tracing.
+
+**Key Features**
+- Instrumenting agent invocations with OpenTelemetry traces
+- Creating parent-child spans for agent and tool call relationships
+- Exporting telemetry to the Aspire Dashboard via OTLP/gRPC
+- Using semantic conventions for generative AI tracing (`gen_ai.*` attributes)
+
+**Key Scenarios**
+- Visibility into agent execution flow and timing
+- Debugging tool call sequences and arguments
+- Monitoring agent behavior in CI/CD pipelines
+- Collecting traces for performance analysis
+- Understanding parent-child relationships between agent and tool call spans
+
+[View Full Documentation](src/Samples/Tests/Telemetry/README.md)
 

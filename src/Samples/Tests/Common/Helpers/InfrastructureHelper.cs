@@ -4,11 +4,11 @@ using Moq;
 using Shared.Infrastructure;
 using Shared.Settings;
 
-namespace TDD.Helpers;
+namespace TDD.Common.Helpers;
 
 public static class InfrastructureHelper
 {
-    private const string AgentTemplateFolder = "Templates";
+    private const string AgentTemplateFolder = "Common/Templates";
 
     public static IAgentTemplateRepository Create()
     {
