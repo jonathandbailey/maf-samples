@@ -41,7 +41,7 @@ public class TelemetryAgentTests : IDisposable
     
         foreach (var functionCallContent in response.FunctionCalls())
         {
-            using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?[ToolCallArgumentKey], activity);
+            using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent.Arguments?[ToolCallArgumentKey], activity);
         }
 
         activity?.Dispose();
