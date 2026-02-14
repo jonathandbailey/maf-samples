@@ -1,4 +1,3 @@
-using System.Text.Json;
 using FluentAssertions;
 using TDD.Common;
 using TDD.Common.Dto;
@@ -36,9 +35,16 @@ public class TelemetryAgentTests : IDisposable
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
-        using var activity =  AgentTelemetry.Start(chatMessage.Text);
+        var activity =  AgentTelemetry.Start(chatMessage.Text);
 
         var response = await agent.RunAsync(chatMessage);
+    
+        foreach (var functionCallContent in response.FunctionCalls())
+        {
+            using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?[ToolCallArgumentKey], activity);
+        }
+
+        activity?.Dispose();
 
         response.FunctionCalls()
             .Should().HaveCount(1).And
@@ -46,13 +52,6 @@ public class TelemetryAgentTests : IDisposable
             .ShouldHaveArgumentKey(ToolCallArgumentKey).And
             .ShouldHaveArgumentOfType<RequestInformationDto>(ToolCallArgumentKey).And
             .ShouldHaveRequiredInputs(ToolCallArgumentKey, _expectedKeys.Count, _expectedKeys);
-
-        var functionCalls = response.FunctionCalls();
-
-        foreach (var functionCallContent in functionCalls)
-        {
-            using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent?.Arguments?[ToolCallArgumentKey], activity);
-        }
     }
 
 }

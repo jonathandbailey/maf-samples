@@ -1,7 +1,6 @@
 ﻿using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Moq;
-using OpenAI.Chat;
 using Shared.Agents;
 using TDD.Common.Dto;
 using ChatMessage = Microsoft.Extensions.AI.ChatMessage;
@@ -11,21 +10,6 @@ namespace TDD.Common.Helpers;
 public class AgentFactoryHelper
 {
     private const string PlanningYaml = "planning.yaml";
-
-    public static async Task<AIAgent> CreatePlanningAgent()
-    {
-        var languageModelSettings = SettingsHelper.GetLanguageModelSettings();
-
-        var templateRepository = InfrastructureHelper.Create();
-
-        var agentFactory = new AgentFactory(languageModelSettings);
-
-        var template = await templateRepository.LoadAsync(PlanningYaml);
-
-        var agent = await agentFactory.Create(template, PlanningTools.GetDeclarationOnlyTools());
-
-        return agent;
-    }
 
     public static async Task<AIAgent> CreateMockPlanningAgent()
     {
@@ -37,7 +21,6 @@ public class AgentFactoryHelper
             RequiredInputs: ["Origin", "ReturnDate"]
         );
 
-        // Serialize to JsonElement to match the real agent response format (ValueKind:Object)
         var requestInfoElement = System.Text.Json.JsonSerializer.SerializeToElement(requestInfoDto);
 
         var functionCallContent = new FunctionCallContent(

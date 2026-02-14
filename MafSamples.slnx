@@ -13,7 +13,7 @@
   </Folder>
   <Folder Name="/Samples/Tests/">
     <Project Path="src/Samples/Tests/TDD.csproj" Id="a96a13b1-002f-441e-a4d6-7c08d065984f" />
-    <Project Path="src/TDD.Dashboard/TDD.Dashboard.AppHost/TDD.Dashboard.csproj" Id="1e48ab70-4f09-461a-9e9b-9ed11b77304e" />
+    <Project Path="src/TDD.Dashboard/TDD.Dashboard.AppHost/Dashboard.csproj" Id="1e48ab70-4f09-461a-9e9b-9ed11b77304e" />
   </Folder>
   <Folder Name="/_Solution Items/">
     <File Path="CLAUDE.md" />
