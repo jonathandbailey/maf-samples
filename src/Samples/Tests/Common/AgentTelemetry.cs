@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json;
 
 namespace TDD.Common;
 
@@ -26,10 +27,18 @@ public static class AgentTelemetry
         var tags = new ActivityTagsCollection
         {
             { "gen_ai.tool.name", key },
-            { "gen_ai.tool.parameters", arguments }
         };
 
+        var jsonArgs = JsonSerializer.Serialize(arguments);
+
+        var inputEvent = new ActivityEvent("ToolInput", tags: new ActivityTagsCollection
+        {
+            { "arguments", jsonArgs }
+        });
+
         var source = Source.StartActivity($"execute_tool {key}", ActivityKind.Internal, parent?.Id, tags);
+
+        source?.AddEvent(inputEvent);
 
         return source;
     }
