@@ -37,10 +37,9 @@
     <None Update="Common\Templates\planning.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Part03_DataDriven\" />
+    <None Update="Part03_DataDriven\Data\PlanningAgentScenarios.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
