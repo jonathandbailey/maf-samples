@@ -11,7 +11,7 @@
     <Project Path="src/Samples/A2A.Client/A2A.Client.csproj" />
     <Project Path="src/Samples/A2A.Server/A2A.Server.csproj" />
   </Folder>
-  <Folder Name="/Samples/Tests/">
+  <Folder Name="/Samples/TDD/">
     <Project Path="src/Samples/Tests.Dashboard/Dashboard.csproj" />
     <Project Path="src/Samples/Tests/TDD.csproj" Id="a96a13b1-002f-441e-a4d6-7c08d065984f" />
   </Folder>

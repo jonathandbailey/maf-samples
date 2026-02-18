@@ -4,7 +4,7 @@ using TDD.Common;
 using TDD.Common.Dto;
 using TDD.Common.Helpers;
 
-namespace TDD.Agents;
+namespace TDD.Part01_Agents;
 
 public class PlanningAgentTests
 {

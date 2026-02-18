@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Shared.Settings;
-using TDD.Agents;
+
 using TDD.Common.Settings;
+using TDD.Part01_Agents;
 
 namespace TDD.Common.Helpers;
 
