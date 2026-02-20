@@ -2,12 +2,20 @@
 
 namespace TDD.Part03_DataDriven;
 
-public class ScenarioLoader
+public static class ScenarioLoader
 {
-    public static IEnumerable<TravelPlanningScenario> LoadPlanningWorkflowScenarios(string fileName = "PlanningAgentScenarios.json")
+    private const string DataPath = "Part03_DataDriven\\Data";
+    private const string Filename = "PlanningAgentScenarios.json";
+
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+    };
+
+    public static IEnumerable<TravelPlanningScenario> LoadPlanningWorkflowScenarios()
     {
         var currentDirectory = AppContext.BaseDirectory;
-        var filePath = Path.Combine(currentDirectory, "Part03_DataDriven\\Data", fileName);
+        var filePath = Path.Combine(currentDirectory, DataPath, Filename);
 
         if (!File.Exists(filePath))
         {
@@ -15,10 +23,7 @@ public class ScenarioLoader
         }
 
         var json = File.ReadAllText(filePath);
-        var scenarios = JsonSerializer.Deserialize<List<TravelPlanningScenario>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        });
+        var scenarios = JsonSerializer.Deserialize<List<TravelPlanningScenario>>(json, SerializerOptions);
 
         return scenarios ?? [];
     }

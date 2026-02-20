@@ -22,6 +22,7 @@ public class PlanningAgentTests
     private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task AgentTemplateRepository_ShouldLoadPlanningTemplate()
     {
         var templateRepository = InfrastructureHelper.Create();
@@ -32,6 +33,7 @@ public class PlanningAgentTests
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete()
     {
         var languageModelSettings = SettingsHelper.GetLanguageModelSettings();

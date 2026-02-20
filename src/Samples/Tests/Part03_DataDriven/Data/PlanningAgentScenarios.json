@@ -2,10 +2,10 @@
     {
         "Name": "IncompletePlanProvided",
         "TravelPlan": {
-          "Origin": "Zurich",
+          "Origin": null,
           "Destination": "Paris",
           "StartDate": "2026-05-01T00:00:00",
-          "EndDate": "2026-06-15T00:00:00",
+          "EndDate": null,
           "NumberOfTravelers": 2
         },
         "ToolCalls": [ "RequestInformation" ]

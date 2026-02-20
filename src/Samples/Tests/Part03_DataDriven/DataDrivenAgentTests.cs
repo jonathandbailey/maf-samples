@@ -1,31 +1,13 @@
 ﻿using FluentAssertions;
+using System.Diagnostics;
 using TDD.Common;
-using TDD.Common.Dto;
 using TDD.Common.Helpers;
 
 namespace TDD.Part03_DataDriven;
 
 public class DataDrivenAgentTests : IDisposable
 {
-    private const string Destination = "Paris";
-    private const int NumberOfTravelers = 2;
-    private static readonly DateTime DepartureDate = new(2026, 5, 1);
-
-    private const string RequestInformationToolName = "RequestInformation";
-    private const string ToolCallArgumentKey = "requestInformationDto";
-
-    private readonly List<string> _expectedKeys = ["Origin", "ReturnDate"];
-
-    private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
-
-    public static IEnumerable<object[]> TravelPlanningScenarios()
-    {
-        var scenarios = ScenarioLoader.LoadPlanningWorkflowScenarios();
-        foreach (var scenario in scenarios)
-        {
-            yield return [scenario];
-        }
-    }
+    private static readonly ActivitySource TestActivitySource = new("Travel.Tests", "1.0.0");
 
 
     public DataDrivenAgentTests()
@@ -40,8 +22,11 @@ public class DataDrivenAgentTests : IDisposable
 
     [Theory]
     [MemberData(nameof(TravelPlanningScenarios))]
+    [Trait("Category", "Unit")]
     public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete(TravelPlanningScenario scenario)
     {
+        using var testActivity = TestActivitySource.StartActivity($"TestCase: {scenario.Name}");
+
         var agent = await AgentFactoryHelper.CreateMockPlanningAgent();
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(scenario.TravelPlan);
@@ -63,5 +48,14 @@ public class DataDrivenAgentTests : IDisposable
                 .ShouldContainCall(toolCall);
         }
         
+    }
+
+    public static IEnumerable<object[]> TravelPlanningScenarios()
+    {
+        var scenarios = ScenarioLoader.LoadPlanningWorkflowScenarios();
+        foreach (var scenario in scenarios)
+        {
+            yield return [scenario];
+        }
     }
 }
