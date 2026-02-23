@@ -5,20 +5,9 @@ using TDD.Common.Helpers;
 
 namespace TDD.Part03_DataDriven;
 
-public class DataDrivenAgentTests : IDisposable
+public class DataDrivenAgentTests : IClassFixture<TelemetryFixture>
 {
     private static readonly ActivitySource TestActivitySource = new("Travel.Tests", "1.0.0");
-
-
-    public DataDrivenAgentTests()
-    {
-        TelemetryHelper.Initialize(SettingsHelper.GetAspireDashboardSettings());
-    }
-
-    public void Dispose()
-    {
-        TelemetryHelper.Dispose();
-    }
 
     [Theory]
     [MemberData(nameof(TravelPlanningScenarios))]
@@ -31,23 +20,22 @@ public class DataDrivenAgentTests : IDisposable
 
         var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(scenario.TravelPlan);
 
-        var activity = AgentTelemetry.Start(chatMessage.Text);
+        using var activity = AgentTelemetry.Start(chatMessage.Text);
 
         var response = await agent.RunAsync(chatMessage);
 
-        foreach (var functionCallContent in response.FunctionCalls())
+        var functionCalls = response.FunctionCalls();
+
+        foreach (var functionCallContent in functionCalls)
         {
             using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent.Arguments, activity);
         }
 
-        activity?.Dispose();
-
         foreach (var toolCall in scenario.ToolCalls)
         {
-            response.FunctionCalls().Should()
+            functionCalls.Should()
                 .ShouldContainCall(toolCall);
         }
-        
     }
 
     public static IEnumerable<object[]> TravelPlanningScenarios()

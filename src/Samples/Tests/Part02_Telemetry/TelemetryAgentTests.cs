@@ -5,7 +5,7 @@ using TDD.Common.Helpers;
 
 namespace TDD.Part02_Telemetry
 {
-    public class TelemetryAgentTests : IDisposable
+    public class TelemetryAgentTests : IClassFixture<TelemetryFixture>
     {
         private const string Destination = "Paris";
         private const int NumberOfTravelers = 2;
@@ -18,24 +18,15 @@ namespace TDD.Part02_Telemetry
 
         private readonly TravelPlanDto _travePlanState = new(Destination: Destination, DepartureDate: DepartureDate, NumberOfTravelers: NumberOfTravelers);
 
-        public TelemetryAgentTests()
-        {
-            TelemetryHelper.Initialize(SettingsHelper.GetAspireDashboardSettings());
-        }
-
-        public void Dispose()
-        {
-            TelemetryHelper.Dispose();
-        }
-
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task PlanningAgent_ShouldRequestMissingInformationToolCall_WhenTravelPlanIsIncomplete()
         {
             var agent = await AgentFactoryHelper.CreateMockPlanningAgent();
 
             var chatMessage = TravelPlanHelper.CreateTravelPlanMessage(_travePlanState);
 
-            var activity =  AgentTelemetry.Start(chatMessage.Text);
+            using var activity =  AgentTelemetry.Start(chatMessage.Text);
 
             var response = await agent.RunAsync(chatMessage);
     
@@ -43,9 +34,7 @@ namespace TDD.Part02_Telemetry
             {
                 using var toolActivity = AgentTelemetry.ToolCall(functionCallContent.Name, functionCallContent.Arguments, activity);
             }
-
-            activity?.Dispose();
-
+       
             response.FunctionCalls()
                 .Should().HaveCount(1).And
                 .ShouldContainCall(RequestInformationToolName).And
