@@ -10,7 +10,9 @@ namespace Shared.Agents;
 
 public class AgentFactory : IAgentFactory
 {
-    private readonly ChatClient _chatClient;
+    private readonly ChatClient? _chatClient;
+
+    public AgentFactory() { }
 
     public AgentFactory(IOptions<LanguageModelSettings> settings)
     {
@@ -44,6 +46,8 @@ public class AgentFactory : IAgentFactory
             ChatOptions = chatOptions
         };
 
+        ArgumentNullException.ThrowIfNull(_chatClient, "AgentFactory must be constructed with LanguageModelSettings to use this overload.");
+
         var agent = _chatClient.AsIChatClient()
             .AsBuilder()
             .BuildAIAgent(options: clientChatOptions);
@@ -53,6 +57,8 @@ public class AgentFactory : IAgentFactory
 
     public async Task<AIAgent> Create(string template, List<AITool>? tools = null)
     {
+
+        ArgumentNullException.ThrowIfNull(_chatClient, "AgentFactory must be constructed with LanguageModelSettings to use this overload.");
 
         var agentFactory = new CustomPromptAgentFactory(_chatClient.AsIChatClient(), tools: tools);
         var agent = await agentFactory.CreateFromYamlAsync(template);

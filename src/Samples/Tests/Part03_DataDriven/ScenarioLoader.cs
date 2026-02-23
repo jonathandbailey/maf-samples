@@ -4,7 +4,7 @@ namespace TDD.Part03_DataDriven;
 
 public static class ScenarioLoader
 {
-    private const string DataPath = "Part03_DataDriven\\Data";
+    private const string DataPath = "Part03_DataDriven/Data";
     private const string Filename = "PlanningAgentScenarios.json";
 
     private static readonly JsonSerializerOptions SerializerOptions = new()

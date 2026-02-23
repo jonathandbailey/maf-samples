@@ -43,7 +43,7 @@ public class AgentFactoryHelper
 
         var templateRepository = InfrastructureHelper.Create();
 
-        var agentFactory = new AgentFactory(SettingsHelper.GetLanguageModelSettings());
+        var agentFactory = new AgentFactory();
 
         var template = await templateRepository.LoadAsync(PlanningYaml);
 
