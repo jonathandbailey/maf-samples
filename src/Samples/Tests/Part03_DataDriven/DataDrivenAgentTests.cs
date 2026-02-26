@@ -9,6 +9,10 @@ public class DataDrivenAgentTests : IClassFixture<TelemetryFixture>
 {
     private static readonly ActivitySource TestActivitySource = new("Travel.Tests", "1.0.0");
 
+    public DataDrivenAgentTests(TelemetryFixture telemetryFixture)
+    {
+    }
+
     [Theory]
     [MemberData(nameof(TravelPlanningScenarios))]
     [Trait("Category", "Unit")]
@@ -38,12 +42,9 @@ public class DataDrivenAgentTests : IClassFixture<TelemetryFixture>
         }
     }
 
-    public static IEnumerable<object[]> TravelPlanningScenarios()
+    public static TheoryData<TravelPlanningScenario> TravelPlanningScenarios()
     {
-        var scenarios = ScenarioLoader.LoadPlanningWorkflowScenarios();
-        foreach (var scenario in scenarios)
-        {
-            yield return [scenario];
-        }
+        var scenarios = ScenarioLoader.LoadPlanningWorkflowScenarios().ToList();
+        return [.. scenarios];
     }
 }
