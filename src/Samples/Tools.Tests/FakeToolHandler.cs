@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.AI;
 using Tools.Registry;
+using Tools.Registry.Interfaces;
 
 namespace Tools.Tests;
 

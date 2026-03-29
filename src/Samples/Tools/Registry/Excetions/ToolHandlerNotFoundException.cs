@@ -1,4 +1,4 @@
-namespace Tools.Registry;
+namespace Tools.Registry.Excetions;
 
 public class ToolHandlerNotFoundException(string toolName)
     : Exception($"No handler registered for tool '{toolName}'.")

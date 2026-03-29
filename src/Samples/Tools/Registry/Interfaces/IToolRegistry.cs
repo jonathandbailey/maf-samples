@@ -1,6 +1,6 @@
 using Microsoft.Extensions.AI;
 
-namespace Tools.Registry;
+namespace Tools.Registry.Interfaces;
 
 public interface IToolRegistry
 {

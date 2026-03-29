@@ -1,4 +1,6 @@
 using Microsoft.Extensions.AI;
+using Tools.Registry.Excetions;
+using Tools.Registry.Interfaces;
 
 namespace Tools.Registry;
 

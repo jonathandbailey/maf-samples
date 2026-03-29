@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Tools.Registry.Interfaces;
 
 namespace Tools.Registry;
 
@@ -19,7 +20,7 @@ public static class ToolsServiceCollectionExtensions
         foreach (var assembly in assemblies)
         {
             foreach (var type in assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && handlerInterface.IsAssignableFrom(t)))
+                .Where(t => t is { IsClass: true, IsAbstract: false } && handlerInterface.IsAssignableFrom(t)))
             {
                 var groups = type.GetCustomAttributes<ToolGroupAttribute>()
                     .Select(a => a.Group)

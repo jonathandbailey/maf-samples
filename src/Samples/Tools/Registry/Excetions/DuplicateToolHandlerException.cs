@@ -1,4 +1,4 @@
-namespace Tools.Registry;
+namespace Tools.Registry.Excetions;
 
 public class DuplicateToolHandlerException(string toolName)
     : Exception($"A handler for tool '{toolName}' has already been registered.")

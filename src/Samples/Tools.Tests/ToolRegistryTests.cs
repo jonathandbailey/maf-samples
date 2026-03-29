@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Tools.Registry;
+using Tools.Registry.Interfaces;
 
 namespace Tools.Tests
 {
