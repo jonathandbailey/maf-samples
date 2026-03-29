@@ -19,23 +19,25 @@ public sealed class ToolRegistry : IToolRegistry
 
         foreach (var reg in registrations)
         {
-            _handlers[reg.Handler.ToolName] = reg.Handler;
+            if (!_handlers.TryAdd(reg.Handler.ToolName, reg.Handler))
+                throw new DuplicateToolHandlerException(reg.Handler.ToolName);
 
             foreach (var group in reg.Groups)
             {
                 if (!_groups.TryGetValue(group, out var list))
-                {
-                    list = [];
-                    _groups[group] = list;
-                }
+                    _groups[group] = list = [];
+
                 list.Add(reg.Handler);
             }
         }
     }
 
-    public IToolHandler? GetHandler(string toolName)
+    public IToolHandler GetHandler(string toolName)
     {
-       return _handlers.TryGetValue(toolName, out var handler) ? handler : null;
+        if (!_handlers.TryGetValue(toolName, out var handler))
+            throw new ToolHandlerNotFoundException(toolName);
+
+        return handler;
     }
 
     public List<AITool> GetAllDeclarationOnlyTools()
@@ -45,9 +47,10 @@ public sealed class ToolRegistry : IToolRegistry
 
     public List<AITool> GetDeclarationOnlyTools(string group)
     {
-        return _groups.TryGetValue(group, out var handlers)
-            ? [.. handlers.SelectMany(h => h.GetDeclarationOnlyTools())]
-            : [];
+        if (!_groups.TryGetValue(group, out var handlers))
+            throw new ToolGroupNotFoundException(group);
+
+        return [.. handlers.SelectMany(h => h.GetDeclarationOnlyTools())];
     }
        
 }
