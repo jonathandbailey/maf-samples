@@ -1,13 +1,35 @@
-﻿[
-    {
-        "Name": "IncompletePlanProvided",
-      "TravelPlan": {
-        "Origin": null,
-        "Destination": "Paris",
-        "DepartureDate": "2026-05-01T00:00:00",
-        "ReturnDate": null,
-        "NumberOfTravelers": 2
-      },
-        "ToolCalls": [ "RequestInformation" ]
-    }
+[
+  {
+    "Name": "MissingOriginAndReturnDate",
+    "TravelPlan": {
+      "Origin": null,
+      "Destination": "Paris",
+      "DepartureDate": "2026-05-01T00:00:00",
+      "ReturnDate": null,
+      "NumberOfTravelers": 2
+    },
+    "ToolCalls": [ "RequestInformation" ]
+  },
+  {
+    "Name": "MissingOriginOnly",
+    "TravelPlan": {
+      "Origin": null,
+      "Destination": "Paris",
+      "DepartureDate": "2026-05-01T00:00:00",
+      "ReturnDate": "2026-05-10T00:00:00",
+      "NumberOfTravelers": 2
+    },
+    "ToolCalls": [ "RequestInformation" ]
+  },
+  {
+    "Name": "MissingReturnDateOnly",
+    "TravelPlan": {
+      "Origin": "London",
+      "Destination": "Paris",
+      "DepartureDate": "2026-05-01T00:00:00",
+      "ReturnDate": null,
+      "NumberOfTravelers": 2
+    },
+    "ToolCalls": [ "RequestInformation" ]
+  }
 ]
