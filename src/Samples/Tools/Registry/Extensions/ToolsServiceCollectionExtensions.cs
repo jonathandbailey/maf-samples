@@ -2,19 +2,32 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Tools.Registry.Interfaces;
 
-namespace Tools.Registry;
+namespace Tools.Registry.Extensions;
 
 public static class ToolsServiceCollectionExtensions
 {
     public static IServiceCollection AddTools(
         this IServiceCollection services,
-        params Type[] markerTypes) =>
-        services.AddTools(markerTypes.Select(t => t.Assembly).Distinct().ToArray());
+        params Type[] markerTypes)
+    {
+        ArgumentNullException.ThrowIfNull(markerTypes);
+
+        if (markerTypes.Length == 0)
+            throw new ArgumentException(
+                "At least one marker type must be provided.", nameof(markerTypes));
+
+        return services.AddTools(markerTypes.Select(t => t.Assembly).Distinct().ToArray());
+    }
 
     private static IServiceCollection AddTools(
         this IServiceCollection services,
         params Assembly[] assemblies)
     {
+        if (services.Any(d => d.ServiceType == typeof(IToolRegistry)))
+            throw new InvalidOperationException(
+                $"{nameof(AddTools)} has already been called on this service collection. " +
+                "Call it once with all required marker types.");
+
         var handlerInterface = typeof(IToolHandler);
 
         foreach (var assembly in assemblies)
@@ -25,6 +38,14 @@ public static class ToolsServiceCollectionExtensions
                 var groups = type.GetCustomAttributes<ToolGroupAttribute>()
                     .Select(a => a.Group)
                     .ToList();
+
+                foreach (var group in groups)
+                {
+                    if (string.IsNullOrWhiteSpace(group))
+                        throw new ArgumentException(
+                            $"Handler '{type.FullName}' has a [ToolGroup] attribute with a null, empty, or whitespace group name.",
+                            nameof(assemblies));
+                }
 
                 services.AddTransient(type);
                 services.AddSingleton(new ToolHandlerDescriptor(type, groups));
